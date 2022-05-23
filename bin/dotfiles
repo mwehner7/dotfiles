@@ -8,7 +8,7 @@ SSH_DIR="$HOME/.ssh"
 
 # Install Ansible
 if ! [ -x "$(command -v ansible)" ]; then
-  sudo pacman -S ansible --noconfirm
+  sudo apt-get install ansible -y
 fi
 
 # Generate SSH keys
@@ -24,7 +24,7 @@ fi
 
 # Clone repository
 if ! [[ -d "$DOTFILES_DIR" ]]; then
-  git clone "https://github.com/ALT-F4-LLC/dotfiles.git" "$DOTFILES_DIR"
+  git clone "git@github.com:mwehner7/dotfiles.git" "$DOTFILES_DIR"
 else
   git -C "$DOTFILES_DIR" pull
 fi
@@ -35,9 +35,9 @@ cd "$DOTFILES_DIR"
 # Update Galaxy
 ansible-galaxy install -r requirements.yml
 
-# Run playbook
-if [[ -f "$CONFIG_DIR/vault-password.txt" ]]; then
-  ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yaml" --vault-password-file "$CONFIG_DIR/vault-password.txt" "$DOTFILES_DIR/main.yaml" "$@"
-else
-  ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yaml" "$DOTFILES_DIR/main.yaml" "$@"
-fi
+## Run playbook
+#if [[ -f "$CONFIG_DIR/vault-password.txt" ]]; then
+#  ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yaml" --vault-password-file "$CONFIG_DIR/vault-password.txt" "$DOTFILES_DIR/main.yaml" "$@"
+#else
+#  ansible-playbook --diff --extra-vars "@$CONFIG_DIR/values.yaml" "$DOTFILES_DIR/main.yaml" "$@"
+#fi
